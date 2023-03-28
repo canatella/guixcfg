@@ -1,0 +1,11 @@
+# -*- Conf -*-
+# Specific ssh config for circleci
+
+Host !*.lan
+  IdentityFile ~/.ssh/id_bitbucket
+  IdentitiesOnly yes
+  AddKeysToAgent no
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+
+Include config

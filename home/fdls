@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "$@" > ~/tmp.log
+DIR="${@: -1}"
+ARGS="${@:1:$#-1}"
+#echo fd -d1 --base-directory "$PATH" . --exec-batch "ls -d $ARGS" >> ~/tmp.log
+echo total ?
+fd . --strip-cwd-prefix -d1 --base-directory "${DIR}"  --exec-batch ls -dhp --group-directories-first --dired ${ARGS}

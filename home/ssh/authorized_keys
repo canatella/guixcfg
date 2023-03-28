@@ -1,0 +1,9 @@
+#ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC60SaWX/q4KDPE/7Er3063xK/7AFIjx56yzet9sKpIPcAGnjQYqDuqU+spIGWOymbldntqZyQD67NCxvtexquOAGdCIbQoL5mBjUAW9Hs55ysbbL9uaan6NbSK7lbJlIHFP6KHHjKKv27C1rofpHOGmtiBLjWWrqVDzVYWdQEVm3Lgo7SMIKV4pGTmLPSF+1BP/oLOX4mRSuqe6sidg7XOLLC9qGfnnIXGY3zGTpwCOZe2rmUwENAHYnoHWMGDXpPCuIX1yQgSOrS4QUsVHSM0+c54FgRa6wg25Kx4rJjijSwtDjuBhU3R+zEwa5x2tbLFD9vdyrHwVaigHkyuR3pP dam@Damiens-MacBook-Pro.local
+
+# Yubikey 15439092
+from="192.168.0.0/24,fc00::/7",no-touch-required sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJkBsdG7JN+ZxCPakp9DaoUu9bxpKrxBfsFuI+u5aLpYAAAAFXNzaDp5dWJpLjE1NDM5MDkyLmxhbg== dam@workstation.lan yubi.15439092.lan
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIPUNesf3DqVXCGrvGuCHC2SyLieX8Jgn8LJhfDpn2AAmAAAAEXNzaDp5dWJpLjE1NDM5MDky dam@workstation.lan yubi.15439092
+
+# Yubikey 14237528
+from="192.168.0.0/24,fc00::/7",no-touch-required sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJvTkDMgE3EMDB0KVBXpZVuS49BzLgiWg2dVAmU2ZB+EAAAAFXNzaDp5dWJpLjE0MjM3NTI4Lmxhbg== dam@workstation.lan yubi.14237528.lan
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDudwy/AZHZASwXlbhTSBJ8hb5/nRF4OKJJfWI5phXSyAAAAEXNzaDp5dWJpLjE0MjM3NTI4 dam@workstation.lan yubi.14237528

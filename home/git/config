@@ -1,0 +1,30 @@
+[user]
+	email = damien@bloom-life.com
+	signingkey = 0x7CB256E85456B13C
+[remote "origin"]
+	tagOpt = --tags
+[credential]
+	helper = libsecret
+[github]
+	user = canatella
+[bitbucket]
+	user = dmerenne
+[pull]
+	ff = only
+[init]
+	defaultBranch = main
+[merge]
+	conflictStyle = diff3
+[diff]
+	algorithm = histogram
+[sendemail]
+	annotate = yes
+	smtpEncryption = tls
+	smtpServer = mail.gandi.net
+	smtpUser = dam@cosinux.org
+	smtpServerPort = 587
+
+[includeIf "gitdir:~/dm/**"]
+  path = ~/.config/git/my
+[includeIf "gitdir:~/bl/**"]
+  path = ~/.config/git/bloom

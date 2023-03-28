@@ -1,0 +1,6 @@
+[submodule "home/emacs-configuration"]
+	path = home/emacs-configuration
+	url = https://github.com/canatella/emacscfg
+[submodule "home/emacs"]
+	path = home/emacs
+	url = https://github.com/canatella/emacscfg
