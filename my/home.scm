@@ -20,6 +20,7 @@
   #:use-module (my home services gnupg)
   #:use-module (my gexp)
   #:use-module (nongnu packages mozilla)
+  #:use-module (my packages fonts)
   #:use-module (my packages micromamba)
   #:use-module (my packages rust-apps)
   #:export (my-home-environment))
@@ -45,7 +46,7 @@
               ;; gnome related stuff
               gnome-tweaks yaru-theme nordic-theme
               ;; fonts
-              font-victor-mono font-cormorant
+              font-victor-mono font-cormorant font-ubuntu
               ;; emacs stuff
               emacs-next emacs-emacsql emacs-vterm emacs-magit emacs-pdf-tools emacs-geiser emacs-geiser-guile
               aspell aspell-dict-en aspell-dict-fr
