@@ -1,6 +1,7 @@
 (define-module (my system base)
   #:use-module (my keyboard-layout)
   #:use-module (gnu)
+  #:use-module (gnu services networking)
   #:use-module (gnu services spice)
   #:use-module (gnu system)
   #:use-module (gnu system nss)
@@ -19,16 +20,21 @@
              (service pcscd-service-type)
              (service bluetooth-service-type)
              (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
-             (udev-rules-service 'u2f libu2f-host #:groups '("plugdev"))
 	     (set-xorg-configuration (xorg-configuration (keyboard-layout %my-keyboard-layout)))
          (extra-special-file "/etc/guix/channels.scm" (local-file "../base-channels.scm"))
 	 %desktop-services)
+      (network-manager-service-type config =>
+                                    (network-manager-configuration
+                                     (inherit config)
+                                     (vpn-plugins
+                                      (list network-manager-openvpn))))
       (guix-service-type config => (guix-configuration
 				    (inherit config)
 				    (substitute-urls (append (list "https://substitutes.nonguix.org") %default-substitute-urls))
 				    (authorized-keys (append (list (plain-file "non-guix.pub" "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-							     %default-authorized-guix-keys)))))
-)
+							     %default-authorized-guix-keys))))))
+
+
 
 (define %my-system-packages
   (cons*
@@ -50,6 +56,8 @@
    libnma
    ;; utils
    strace bash-completion
+   ;; VPN
+   network-manager-openvpn
    %base-packages))
 
 (define %base-operating-system
@@ -60,7 +68,7 @@
    (bootloader (bootloader-configuration
                 (bootloader grub-efi-bootloader)
                 (targets '("/boot/efi"))
-                (keyboard-layout keyboard-layout)))
+                (keyboard-layout %my-keyboard-layout)))
    (file-systems  %base-file-systems)
 
    ;; Actual interesting stuff

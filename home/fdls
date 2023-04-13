@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 echo "$@" > ~/tmp.log
 DIR="${@: -1}"
 ARGS="${@:1:$#-1}"

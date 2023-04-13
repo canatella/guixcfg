@@ -8,6 +8,7 @@
   #:use-module (gnu)
   #:use-module (gnu home)
   #:use-module (gnu packages)
+  #:use-module (gnu packages linux)
   #:use-module (gnu services)
   #:use-module (guix channels)
   #:use-module (guix gexp)
@@ -23,10 +24,11 @@
   #:use-module (my packages fonts)
   #:use-module (my packages micromamba)
   #:use-module (my packages rust-apps)
+  #:use-module (my packages insync)
   #:export (my-home-environment))
 
 ;;(use-modules (emacs packages melpa))
-(use-package-modules curl emacs emacs-xyz fonts gnupg password-utils python shellutils version-control rust-apps gnome gnome-xyz glib bash guile spice aspell)
+(use-package-modules curl emacs emacs-xyz gnupg password-utils python shellutils version-control rust-apps gnome gnome-xyz glib bash guile spice aspell compression web dns)
 
 
 (define %my-home-environment
@@ -40,16 +42,23 @@
               ;; needed for passff firefox extension
               python password-store
               ;; usefull tools
-              curl git `(,git "credential-libsecret") ripgrep fd direnv
+              curl git `(,git "credential-libsecret") ripgrep fd direnv bluez
+              unzip jq
+              ;; dig
+              `(,isc-bind "utils")
               ;; gpg
               gnupg pinentry pinentry-emacs pinentry-gnome3
               ;; gnome related stuff
               gnome-tweaks yaru-theme nordic-theme
               ;; fonts
-              font-victor-mono font-cormorant font-ubuntu
+              font-victor-mono font-ubuntu
               ;; emacs stuff
-              emacs-next emacs-emacsql emacs-vterm emacs-magit emacs-pdf-tools emacs-geiser emacs-geiser-guile
+              emacs-next emacs-emacsql emacs-vterm emacs-magit emacs-pdf-tools emacs-geiser emacs-geiser-guile emacs-guix
               aspell aspell-dict-en aspell-dict-fr
+              ;; needed by emacs tramp
+              glibc
+              ;; insync
+              insync-headless
               ))
 
    ;; Below is the list of Home services.  To search for available
@@ -125,10 +134,13 @@
 
           (simple-service 'flatpak-service
                           home-activation-service-type
-                          #~(let ((packs '("us.zoom.Zoom" "com.slack.Slack" "com.jetbrains.IntelliJ-IDEA-Community")))
+                          #~(let ((packs '("org.gtk.Gtk3theme.Yaru-dark" "us.zoom.Zoom" "com.slack.Slack" "com.jetbrains.IntelliJ-IDEA-Community")))
                             (system* "flatpak" "--user" "remote-add" "--if-not-exists" "flathub" "https://flathub.org/repo/flathub.flatpakrepo")
                             (map (lambda (pack)
-                                   (system* "flatpak" "install" "--or-update" "flathub" pack)) packs)))
+                                   (system* "flatpak" "install" "--or-update" "flathub" pack)
+                                   (system* "sudo" "flatpak" "override" pack "--env=GTK_THEME=Yaru-blue-dark")
+                                   (system* "sudo" "flatpak" "override" pack "--env=ICON_THEME=Yaru-blue-dark"))
+                                 packs)))
 
           (simple-service 'variant-packages-service
                           home-channels-service-type

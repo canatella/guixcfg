@@ -14,19 +14,11 @@
     (host-name "workstation")
 
 
-    ;; The UUID is that returned by 'cryptsetup luksUUID'.
-    (mapped-devices
-     (list (mapped-device
-            (source (uuid "7dde4397-d345-4155-bd62-616d4dff5bdb"))
-            (target "system-root")
-            (type luks-device-mapping))))
-
     (file-systems (append
                    (list (file-system
-                           (device (file-system-label "system-root"))
+                           (device (file-system-label "guix"))
                            (mount-point "/")
-                           (type "ext4")
-                           (dependencies mapped-devices))
+                           (type "ext4"))
                          (file-system
                            (device (uuid "1C17-CB55" 'fat))
                            (mount-point "/boot/efi")
