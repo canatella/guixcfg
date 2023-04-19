@@ -81,7 +81,8 @@
                  (group "dam")
 	         (uid 1000)
                  (supplementary-groups '("users" "wheel" "netdev"
-                                         "audio" "video" "plugdev")))
+                                         "audio" "video" "plugdev"
+                                         "lp")))
                 %base-user-accounts))
 
    (groups (cons (user-group (name "dam") (id 1000))
