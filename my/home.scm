@@ -8,7 +8,6 @@
   #:use-module (gnu)
   #:use-module (gnu home)
   #:use-module (gnu packages)
-  #:use-module (gnu packages linux)
   #:use-module (gnu services)
   #:use-module (guix channels)
   #:use-module (guix gexp)
@@ -21,14 +20,15 @@
   #:use-module (my home services gnupg)
   #:use-module (my gexp)
   #:use-module (nongnu packages mozilla)
+  #:use-module (my packages cloud)
   #:use-module (my packages fonts)
   #:use-module (my packages micromamba)
   #:use-module (my packages rust-apps)
-  #:use-module (my packages insync)
+  #:use-module (my packages tools)
   #:export (my-home-environment))
 
 ;;(use-modules (emacs packages melpa))
-(use-package-modules curl emacs emacs-xyz gnupg password-utils python shellutils version-control rust-apps gnome gnome-xyz glib bash guile spice aspell compression web dns)
+(use-package-modules bittorrent curl emacs emacs-xyz gnupg libreoffice linux password-utils python shellutils version-control rust-apps gnome gnome-xyz glib bash guile spice aspell compression web dns)
 
 
 (define %my-home-environment
@@ -49,7 +49,7 @@
               ;; gpg
               gnupg pinentry pinentry-emacs pinentry-gnome3
               ;; gnome related stuff
-              gnome-tweaks yaru-theme nordic-theme
+              gnome-tweaks yaru-theme nordic-theme gnome-shell-extension-appindicator `(,transmission "gui")
               ;; fonts
               font-victor-mono font-ubuntu
               ;; emacs stuff
@@ -57,8 +57,10 @@
               aspell aspell-dict-en aspell-dict-fr
               ;; needed by emacs tramp
               glibc
-              ;; insync
-              insync-headless
+              ;; office
+              libreoffice
+              ;; work
+              google-cloud-sdk circleci-cli
               ))
 
    ;; Below is the list of Home services.  To search for available
@@ -89,8 +91,8 @@
                      (".ssh/config" ,(local-file "../home/ssh/config"))
                      (".ssh/config_circleci" ,(local-file "../home/ssh/config_circleci"))
                      (".ssh/authorized_keys" ,(local-file "../home/ssh/authorized_keys"))
-                     (".ssh/known_hosts" ,(local-file "../home/ssh/known_hosts")))
-                   )
+                     (".ssh/known_hosts" ,(local-file "../home/ssh/known_hosts"))
+                   ))
 
           (service home-xdg-configuration-files-service-type
                    `(
@@ -134,13 +136,14 @@
 
           (simple-service 'flatpak-service
                           home-activation-service-type
-                          #~(let ((packs '("org.gtk.Gtk3theme.Yaru-dark" "us.zoom.Zoom" "com.slack.Slack" "com.jetbrains.IntelliJ-IDEA-Community")))
-                            (system* "flatpak" "--user" "remote-add" "--if-not-exists" "flathub" "https://flathub.org/repo/flathub.flatpakrepo")
-                            (map (lambda (pack)
-                                   (system* "flatpak" "install" "--or-update" "flathub" pack)
-                                   (system* "sudo" "flatpak" "override" pack "--env=GTK_THEME=Yaru-blue-dark")
-                                   (system* "sudo" "flatpak" "override" pack "--env=ICON_THEME=Yaru-blue-dark"))
-                                 packs)))
+                          #~(let ((packs '("org.gtk.Gtk3theme.Yaru-dark" "us.zoom.Zoom" "com.slack.Slack" "com.jetbrains.IntelliJ-IDEA-Community" "org.sparkleshare.SparkleShare")))
+                              (system* "flatpak" "--user" "remote-add" "--if-not-exists" "flathub" "https://flathub.org/repo/flathub.flatpakrepo")
+                              (map (lambda (pack)
+                                     (system* "flatpak" "install" "--or-update" "flathub" pack)
+                                     (system* "sudo" "flatpak" "override" pack "--env=GTK_THEME=Yaru-blue-dark")
+                                     (system* "sudo" "flatpak" "override" pack "--env=ICON_THEME=Yaru-blue-dark"))
+                                   packs)
+                              ))
 
           (simple-service 'variant-packages-service
                           home-channels-service-type
