@@ -24,7 +24,15 @@
 	smtpUser = dam@cosinux.org
 	smtpServerPort = 587
 
+[diff "scheme"]
+	xfuncname = "^(\\(define.*)$"
+
+[diff "texinfo"]
+	xfuncname = "^@node[[:space:]]+([^,]+).*$"
+
 [includeIf "gitdir:~/dm/**"]
+  path = ~/.config/git/my
+[includeIf "gitdir:~/.password-store/**"]
   path = ~/.config/git/my
 [includeIf "gitdir:~/bl/**"]
   path = ~/.config/git/bloom

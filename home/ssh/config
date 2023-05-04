@@ -2,6 +2,11 @@ CanonicalizeHostname yes
 CanonicalDomains lan
 IdentitiesOnly yes
 
+Host www.bloomlife.com
+  HostName codeserver.dev.eb508740-815b-4b8b-b434-9a31e88dc805.drush.in
+  Port 2222
+  User codeserver.dev.eb508740-815b-4b8b-b434-9a31e88dc805
+
 Host *
   ServerAliveInterval 60
   ControlMaster auto
@@ -28,5 +33,5 @@ Host bitbucket.org
   IdentitiesOnly yes
 
 Host home
-HostName home.cosinux.org
-Port 2022
+  HostName home.cosinux.org
+  Port 2022

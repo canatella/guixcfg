@@ -1,0 +1,9 @@
+host: https://circleci.com
+endpoint: graphql-unstable
+rest_endpoint: api/v2
+tls_cert: ""
+tls_insecure: false
+orb_publishing:
+    default_namespace: "bbw"
+    default_vcs_provider: ""
+    default_owner: "2aad0e90-fdd7-4606-b82b-bf6ad78c1a27"

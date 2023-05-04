@@ -1,13 +1,16 @@
 (define-module (my system base)
   #:use-module (my keyboard-layout)
   #:use-module (gnu)
+    #:use-module (gnu services cups)
   #:use-module (gnu services networking)
   #:use-module (gnu services spice)
   #:use-module (gnu system)
   #:use-module (gnu system nss)
   #:use-module (guix utils)
+  #:use-module (gnu packages cups)
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages security-token)
+  #:use-module (nongnu packages printers)
   #:export (%base-operating-system %my-system-services %my-system-packages))
 
 (use-service-modules desktop sddm xorg ssh security-token)
@@ -18,10 +21,19 @@
       (cons* (service gnome-desktop-service-type)
 	     (service openssh-service-type)
              (service pcscd-service-type)
-             (service bluetooth-service-type)
+             (service bluetooth-service-type
+                      (bluetooth-configuration
+                       (auto-enable? #t)))
+             (service cups-service-type
+                      (cups-configuration
+                       (web-interface? #t)
+                       (default-paper-size "A4")
+                       (extensions
+                        (list cups-filters hplip hplip-plugin))))
              (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
 	     (set-xorg-configuration (xorg-configuration (keyboard-layout %my-keyboard-layout)))
-         (extra-special-file "/etc/guix/channels.scm" (local-file "../base-channels.scm"))
+             (extra-special-file "/etc/guix/channels.scm" (local-file "../base-channels.scm"))
+             (extra-special-file "/etc/cups/printers.conf" (local-file "../../system/cups/printers.conf"))
 	 %desktop-services)
       (network-manager-service-type config =>
                                     (network-manager-configuration

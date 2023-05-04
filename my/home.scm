@@ -9,6 +9,7 @@
   #:use-module (gnu home)
   #:use-module (gnu packages)
   #:use-module (gnu services)
+  #:use-module (srfi srfi-1)
   #:use-module (guix channels)
   #:use-module (guix gexp)
   #:use-module (guix packages)
@@ -28,7 +29,32 @@
   #:export (my-home-environment))
 
 ;;(use-modules (emacs packages melpa))
-(use-package-modules bittorrent curl emacs emacs-xyz gnupg libreoffice linux password-utils python shellutils version-control rust-apps gnome gnome-xyz glib bash guile spice aspell compression web dns)
+(use-package-modules
+ aspell
+ bash
+ bittorrent
+ compression
+ curl
+ dns
+ emacs
+ emacs-xyz
+ glib
+ gnome
+ gnome-xyz
+ gnupg
+ guile
+ java
+ libreoffice
+ linux
+ password-utils
+ python
+ python-web
+ rust-apps
+ shellutils
+ spice
+ version-control
+ web
+ wine)
 
 
 (define %my-home-environment
@@ -60,7 +86,9 @@
               ;; office
               libreoffice
               ;; work
-              google-cloud-sdk circleci-cli
+              google-cloud-sdk circleci-cli awscli openjdk
+              ;; wine
+              wine64
               ))
 
    ;; Below is the list of Home services.  To search for available
@@ -92,6 +120,7 @@
                      (".ssh/config_circleci" ,(local-file "../home/ssh/config_circleci"))
                      (".ssh/authorized_keys" ,(local-file "../home/ssh/authorized_keys"))
                      (".ssh/known_hosts" ,(local-file "../home/ssh/known_hosts"))
+
                    ))
 
           (service home-xdg-configuration-files-service-type
@@ -115,6 +144,10 @@
                      ("git/config" ,(local-file "../home/git/config"))
                      ("git/my" ,(local-file "../home/git/my"))
                      ("git/bloom" ,(local-file "../home/git/bloom"))
+
+                     ;; Work stuff
+                     ("direnv/lib/micromamba.sh" ,(local-file "../home/direnv/micromamba.sh"))
+
                      ))
 
           (service home-gnupg-service-type)
@@ -145,9 +178,12 @@
                                    packs)
                               ))
 
-          (simple-service 'variant-packages-service
-                          home-channels-service-type
+          (service home-channels-service-type
                           (list
+                           (channel
+                            (inherit (find guix-channel? %default-channels))
+                            (url "/home/dam/dm/guix")
+                            (branch "my"))
                            (channel
 	                    (name 'nonguix)
 	                    (url "https://gitlab.com/nonguix/nonguix")
@@ -165,6 +201,7 @@
                             ("HISTTIMEFORMAT" . "%F %T")
                             ("HISTFILESIZE" . "-1")
                             ("HISTSIZE" . "-1")
+                            ("JAVA_HOME" . ,(file-append openjdk "/"))
                             ("MANPATH" . "$MANPATH:$HOME/.local/share/man")
                             ("PASSWORD_STORE_GPG_OPTS" . "--no-throw-keyids")
                             ("GUIX_LOAD_PATH" . "$HOME/dm/guix-config")

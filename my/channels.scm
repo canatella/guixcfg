@@ -3,7 +3,7 @@
 
 (list (channel
         (name 'guix)
-        (url "https://git.savannah.gnu.org/git/guix.git")
+        (url "/home/dam/dm/guix")
         (branch "master")
         (commit
           "c4cca9cb5d3e93ef146acb930a95da9d2da6fb06")
