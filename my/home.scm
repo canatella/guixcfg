@@ -68,7 +68,7 @@
               ;; needed for passff firefox extension
               python password-store
               ;; usefull tools
-              curl git `(,git "credential-libsecret") ripgrep fd direnv bluez
+              curl git `(,git "credential-libsecret") git-absorb ripgrep fd direnv bluez
               unzip jq
               ;; dig
               `(,isc-bind "utils")
