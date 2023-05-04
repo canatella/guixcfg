@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+
+# Setting this, so the repo does not need to be given on the commandline:
+for REPO in /media/backups/borg root@turris.lan:/data/borg-workstation; do
+
+    export BORG_REPO="${REPO}"
+    borg create                            \
+	 --verbose                         \
+	 --filter AME                      \
+	 --list                            \
+	 --stats                           \
+	 --show-rc                         \
+	 --compression auto,lzma,6         \
+	 --exclude-caches                  \
+	 --exclude-from /etc/borg/excludes \
+	 --exclude-from /etc/borg/ignores  \
+	 ::'{hostname}-{now}'              \
+	 /
+
+    borg prune                            \
+	 --list                           \
+	 --show-rc                        \
+	 --keep-daily    7                \
+	 --keep-weekly   4                \
+	 --keep-monthly  6
+
+done

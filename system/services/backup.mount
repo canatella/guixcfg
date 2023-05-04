@@ -1,0 +1,11 @@
+[Unit]
+Description=Backup drive
+
+[Mount]
+What=LABEL=backup
+Where=/media/backups
+Type=ext4
+Options=defaults
+
+[Install]
+WantedBy=multi-user.target
